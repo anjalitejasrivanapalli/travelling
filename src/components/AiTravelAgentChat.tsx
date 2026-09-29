@@ -26,17 +26,22 @@ interface ChatMessage {
   timestamp: string;
 }
 
+const N8N_WEBHOOK_URL = 'https://anjalivanapalli.app.n8n.cloud/webhook/e7cfa100-ed9d-4409-95bc-6ea7fb829041/chat';
+
 export const AiTravelAgentChat: React.FC<AiTravelAgentChatProps> = ({ isOpen, onClose }) => {
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: 'welcome-1',
       sender: 'agent',
-      text: "Namaste! I am your AI Travel Agent for your upcoming trip from Visakhapatnam to Russia (20–30 October 2026). How can I assist you with flight connections, e-visa doubts, money exchange, metro navigation, or restaurant recommendations?",
+      text: "Namaste! I am your AI Travel Agent connected to your n8n workflow for your upcoming trip from Visakhapatnam to Russia (20–30 October 2026). How can I assist you with flight connections, e-visa doubts, money exchange, metro navigation, or restaurant recommendations?",
       timestamp: 'Just now',
     },
   ]);
   const [inputQuery, setInputQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [sessionId] = useState<string>(() => {
+    return 'session_' + Math.random().toString(36).substring(2, 12);
+  });
 
   const sampleQueries = [
     "What warm clothes should I pack for late October in Russia?",
@@ -61,6 +66,46 @@ export const AiTravelAgentChat: React.FC<AiTravelAgentChatProps> = ({ isOpen, on
     if (!queryText) setInputQuery('');
     setIsLoading(true);
 
+    let n8nSuccess = false;
+
+    // 1. First attempt: Direct call to n8n webhook
+    try {
+      const n8nRes = await fetch(N8N_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'sendMessage',
+          sessionId,
+          chatInput: textToSend.trim(),
+        }),
+      });
+
+      if (n8nRes.ok) {
+        const n8nData = await n8nRes.json();
+        // n8n chat typically returns { output: "..." } or { text: "..." } or { message: "..." }
+        const replyText = n8nData.output || n8nData.text || n8nData.response || (typeof n8nData === 'string' ? n8nData : null);
+
+        if (replyText && n8nData.message !== 'Error in workflow') {
+          const agentMsg: ChatMessage = {
+            id: `a-${Date.now()}`,
+            sender: 'agent',
+            text: replyText,
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          };
+          setMessages(prev => [...prev, agentMsg]);
+          n8nSuccess = true;
+        }
+      }
+    } catch (n8nErr) {
+      console.warn('n8n webhook direct call:', n8nErr);
+    }
+
+    if (n8nSuccess) {
+      setIsLoading(false);
+      return;
+    }
+
+    // 2. Fallback to server Gemini proxy or verified expert travel responses
     try {
       const response = await fetch('/api/travel-agent', {
         method: 'POST',
@@ -90,7 +135,7 @@ export const AiTravelAgentChat: React.FC<AiTravelAgentChatProps> = ({ isOpen, on
       };
       setMessages(prev => [...prev, agentMsg]);
     } catch (err) {
-      // High quality offline fallback
+      // High quality domain-specific fallback
       let fallback = "Here is practical advice for your journey: ";
       const lower = textToSend.toLowerCase();
 

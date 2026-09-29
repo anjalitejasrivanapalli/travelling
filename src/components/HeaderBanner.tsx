@@ -54,9 +54,13 @@ export const HeaderBanner: React.FC<HeaderBannerProps> = ({
         {/* Top brand & actions row */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="space-y-1">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded text-xs font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30 uppercase tracking-wider">
                 <Compass className="w-3.5 h-3.5" /> AI Travel Agent Blueprint
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                n8n Chatbox Active
               </span>
               <span className="text-xs text-slate-400">· Official 2026 Guidelines & Rates</span>
             </div>

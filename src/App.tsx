@@ -24,6 +24,7 @@ import { FoodAndDiningView } from './components/FoodAndDiningView';
 import { VisaAndRequirementsView } from './components/VisaAndRequirementsView';
 import { PracticalTravelTipsView } from './components/PracticalTravelTipsView';
 import { AiTravelAgentChat } from './components/AiTravelAgentChat';
+import { N8nChatWidget } from './components/N8nChatWidget';
 import { TRAVEL_PLAN, getPlanSummary } from './data/travelPlanData';
 
 export default function App() {
@@ -123,21 +124,24 @@ export default function App() {
         )}
       </main>
 
-      {/* AI Assistant Modal */}
+      {/* Official n8n Chatbox Widget */}
+      <N8nChatWidget />
+
+      {/* AI Assistant In-App Modal */}
       <AiTravelAgentChat
         isOpen={isAiChatOpen}
         onClose={() => setIsAiChatOpen(false)}
       />
 
-      {/* Floating Ask AI Button for easy access on mobile/desktop */}
-      <div className="fixed bottom-6 right-6 z-40">
+      {/* Floating Modal Trigger Button (Docked cleanly on the bottom-left to avoid overlapping n8n widget) */}
+      <div className="fixed bottom-6 left-6 z-40">
         <button
           type="button"
           onClick={() => setIsAiChatOpen(true)}
-          className="flex items-center gap-2 px-4 py-3 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-bold shadow-xl shadow-amber-500/25 hover:from-amber-400 hover:to-amber-500 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+          className="flex items-center gap-2 px-3.5 py-2.5 rounded-full bg-slate-900/90 border border-amber-500/40 text-amber-300 font-semibold shadow-xl backdrop-blur-md hover:bg-slate-800 hover:border-amber-400 hover:scale-105 active:scale-95 transition-all cursor-pointer text-xs"
         >
-          <Sparkles className="w-4 h-4 fill-slate-950" />
-          <span className="text-xs sm:text-sm">Ask AI Travel Agent</span>
+          <Sparkles className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+          <span>Trip FAQ & n8n AI</span>
         </button>
       </div>
 

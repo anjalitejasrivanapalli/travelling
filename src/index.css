@@ -1,1 +1,35 @@
 @import "tailwindcss";
+
+/* Official n8n Chat Theme Overrides */
+:root {
+  --chat--color-primary: #f59e0b;
+  --chat--color-primary-shade-50: #d97706;
+  --chat--color-primary-shade-100: #b45309;
+  --chat--color-secondary: #0f172a;
+  --chat--color-light: #0f172a;
+  --chat--color-dark: #f8fafc;
+  --chat--header--background: #090d16;
+  --chat--header--color: #ffffff;
+  --chat--heading--color: #ffffff;
+  --chat--subtitle--color: #94a3b8;
+  --chat--window--background: #090d16;
+  --chat--body--background: #0b1120;
+  --chat--footer--background: #090d16;
+  --chat--footer--color: #64748b;
+  --chat--message--bot--background: #1e293b;
+  --chat--message--bot--color: #f1f5f9;
+  --chat--message--user--background: #f59e0b;
+  --chat--message--user--color: #090d16;
+  --chat--toggle--background: #f59e0b;
+  --chat--toggle--hover--background: #d97706;
+  --chat--toggle--color: #090d16;
+  --chat--border-radius: 16px;
+  --chat--input--background: #090d16;
+  --chat--input--color: #ffffff;
+}
+
+/* Ensure n8n widget stays above other elements */
+.n8n-chat-wrapper {
+  position: relative;
+  z-index: 99999;
+}
