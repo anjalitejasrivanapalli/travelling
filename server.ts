@@ -44,20 +44,32 @@ Travel context info: ${travelContext ? JSON.stringify(travelContext) : 'Standard
 Provide a helpful, precise, culturally savvy, and budget-conscious answer in 2-4 structured paragraphs or bullet points with practical tips, rupee/ruble estimates if applicable, and safety advice.`;
 
     let reply = '';
+    let usedModel = 'gemini-3.1-flash-lite';
     try {
       const response = await ai.models.generateContent({
-        model: 'gemini-3.8-flash',
+        model: 'gemini-3.1-flash-lite',
         contents: prompt,
       });
       reply = response.text || '';
     } catch (modelErr: any) {
-      console.warn('Gemini model call notice, using curated travel logic:', modelErr?.message || modelErr);
-      reply = "Here is verified advice for your Russia trip (20–30 Oct 2026): In late October, temperatures in Moscow and St. Petersburg range from -2°C to +8°C. Pack thermal base layers, a windproof down jacket, and waterproof boots. Remember that foreign Visa/Mastercard/RuPay cards do NOT work in Russia due to sanctions; bring crisp, undamaged post-2013 $100 USD bills to exchange for Rubles at Sberbank or VTB banks, or use a Russian tourist Mir card. For local transport, download the Yandex Go taxi app and Yandex Metro.";
+      console.warn('gemini-3.1-flash-lite notice, trying gemini-3.8-flash:', modelErr?.message || modelErr);
+      try {
+        usedModel = 'gemini-3.8-flash';
+        const response2 = await ai.models.generateContent({
+          model: 'gemini-3.8-flash',
+          contents: prompt,
+        });
+        reply = response2.text || '';
+      } catch (err2: any) {
+        console.warn('Fallback to expert curated knowledge:', err2?.message || err2);
+        reply = "Here is verified advice for your Russia trip (20–30 Oct 2026): In late October, temperatures in Moscow and St. Petersburg range from -2°C to +8°C. Pack thermal base layers, a windproof down jacket, and waterproof boots. Remember that foreign Visa/Mastercard/RuPay cards do NOT work in Russia due to sanctions; bring crisp, undamaged post-2013 $100 USD bills to exchange for Rubles at Sberbank or VTB banks, or use a Russian tourist Mir card. For local transport, download the Yandex Go taxi app and Yandex Metro.";
+        usedModel = 'curated-expert';
+      }
     }
 
     return res.json({
       reply: reply || 'Here is your travel advice for Moscow & St. Petersburg.',
-      source: 'travel-advisor'
+      source: usedModel
     });
   } catch (error: any) {
     console.error('Error in travel agent endpoint:', error);
