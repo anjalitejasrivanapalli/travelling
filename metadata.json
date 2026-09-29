@@ -1,0 +1,6 @@
+{
+  "name": "Safar-e-Rus: India to Russia Solo Travel Planner",
+  "description": "Comprehensive 10-night/11-day travel planner for a solo traveler from Visakhapatnam to Moscow & St. Petersburg with flights, accommodation, visa guide, budget calculator, and day-by-day itinerary under ₹5,00,000.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
