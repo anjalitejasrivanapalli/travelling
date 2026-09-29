@@ -122,12 +122,12 @@ export const VisaAndRequirementsView: React.FC<VisaAndRequirementsViewProps> = (
             </h3>
           </div>
           <a
-            href="https://evisa.kdmid.ru"
+            href="https://electronic-visa.kdmid.ru/index_en.html"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1 text-xs text-amber-400 hover:text-amber-300 font-semibold"
           >
-            Official MFA Portal: evisa.kdmid.ru <ExternalLink className="w-3.5 h-3.5" />
+            Official MFA Portal: electronic-visa.kdmid.ru <ExternalLink className="w-3.5 h-3.5" />
           </a>
         </div>
 
