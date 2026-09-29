@@ -26,10 +26,15 @@
   --chat--border-radius: 16px;
   --chat--input--background: #090d16;
   --chat--input--color: #ffffff;
+  --chat--window--z-index: 99999;
+  --chat--window--bottom: 24px;
+  --chat--window--right: 24px;
 }
 
-/* Ensure n8n widget stays above other elements */
-.n8n-chat-wrapper {
+/* Ensure n8n widget stays above other elements and renders smoothly */
+.chat-window-wrapper,
+.n8n-chat-wrapper,
+#n8n-chat {
   position: relative;
-  z-index: 99999;
+  z-index: 99999 !important;
 }

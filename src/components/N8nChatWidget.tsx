@@ -23,10 +23,10 @@ export const N8nChatWidget: React.FC = () => {
 
     let isCancelled = false;
 
-    // 3. Dynamically load official bundle from CDN (using dynamic function to bypass TypeScript URL module check)
-    const loadDynamicModule = new Function('url', 'return import(url)');
-
-    loadDynamicModule('https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js')
+    // 3. Dynamically load official bundle from CDN using native dynamic import (safe in CSP iframe)
+    const cdnUrl: string = 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+    // @ts-ignore
+    import(/* @vite-ignore */ cdnUrl)
       .then((module: any) => {
         if (isCancelled) return;
         const createChatFn = module.createChat || module.default?.createChat;
