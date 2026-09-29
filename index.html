@@ -12,10 +12,31 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
   </head>
   <body class="bg-slate-950 text-slate-100 antialiased selection:bg-amber-500/30 selection:text-amber-200">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script type="module">
+      import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+      createChat({
+        webhookUrl: 'https://anjalivanapalli.app.n8n.cloud/webhook/e7cfa100-ed9d-4409-95bc-6ea7fb829041/chat',
+        initialMessages: [
+          'Namaste! Welcome to your Russia Solo Travel Advisor.',
+          'Ask me anything about your Visakhapatnam to Russia trip (20–30 October 2026): flights, e-visa, budget breakdown, weather, or recommendations!'
+        ],
+        i18n: {
+          en: {
+            title: 'Russia AI Travel Advisor',
+            subtitle: 'Online • Powered by n8n Workflow',
+            footer: 'n8n Cloud Automation',
+            getStarted: 'Start Consultation',
+            inputPlaceholder: 'Ask about flights, hotels, visa, weather...',
+          }
+        }
+      });
+    </script>
   </body>
 </html>
 

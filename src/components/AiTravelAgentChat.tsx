@@ -40,7 +40,11 @@ export const AiTravelAgentChat: React.FC<AiTravelAgentChatProps> = ({ isOpen, on
   const [inputQuery, setInputQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [sessionId] = useState<string>(() => {
-    return 'session_' + Math.random().toString(36).substring(2, 12);
+    try {
+      return crypto.randomUUID();
+    } catch {
+      return 'session_' + Math.random().toString(36).substring(2, 12);
+    }
   });
 
   const sampleQueries = [

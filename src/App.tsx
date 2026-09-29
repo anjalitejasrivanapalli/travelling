@@ -24,7 +24,6 @@ import { FoodAndDiningView } from './components/FoodAndDiningView';
 import { VisaAndRequirementsView } from './components/VisaAndRequirementsView';
 import { PracticalTravelTipsView } from './components/PracticalTravelTipsView';
 import { AiTravelAgentChat } from './components/AiTravelAgentChat';
-import { N8nChatWidget } from './components/N8nChatWidget';
 import { TRAVEL_PLAN, getPlanSummary } from './data/travelPlanData';
 
 export default function App() {
@@ -123,9 +122,6 @@ export default function App() {
           <PracticalTravelTipsView />
         )}
       </main>
-
-      {/* Official n8n Chatbox Widget */}
-      <N8nChatWidget />
 
       {/* AI Assistant In-App Modal */}
       <AiTravelAgentChat
